@@ -25,7 +25,7 @@ FILE *data1;
 datapeminjam pelanggan[100];
 stok sepatu[100];
 void admin(int b);
-
+void user();
 int hargasatuan,x;
 int main()
 {
@@ -81,7 +81,7 @@ int main()
 	else if (a==2)
 	{
 		
-			//user();
+			user();
 			system("PAUSE");
 			goto awal;
 	}
@@ -331,4 +331,149 @@ void admin(int b)
 		}
 	}
 	fclose(data1);
+}
+
+void user()
+{	
+	//DEKLARASI
+	data1 = fopen("datapeminjaman.txt","a");
+	int answer;
+	string merk;
+	//DAFTAR HARGA
+	cout << "======List Barang Yang tersedia======" << endl;
+	cout << "Nike Ukuran (40-46)" << endl;
+	cout << "\tPerhari = 25k" << endl;
+	cout << "Adidas Ukuran (40-46)" << endl;
+	cout << "\tPerhari = 20k" << endl;
+	cout << "NB Ukuran (40-46)" << endl;
+	cout << "\tPerhari = 15k\n" << endl;
+	cout << "Apakah anda berminat dengan Barang diatas?\n\t1.Ya\n\t2.Tidak";
+	cout << "\nJawab dengan angka	:";cin >> answer;
+	switch(answer)
+	{
+		case 2:
+		{
+			exit(0);
+		}
+		case 1:
+{
+	//Pilih Item
+	p_item:
+	cout << "\nMasukan Pilihan item" << endl;
+	cout << "\tMerk\t:";cin >> pelanggan[x].merk;
+	cout << "\tUkuran\t:";cin >> pelanggan[x].ukuran;
+	cout << "++++Pengecekan Ketersediaan Barang++++" << endl;
+	//DEKLARASI HARGA & CEK STOK
+	if(pelanggan[x].merk=="nike")
+	{
+		hargasatuan=25000;
+		for(int i=0;i<6;i++)
+		{
+			if(pelanggan[x].ukuran==40+i)
+			{
+				if(sepatu[0].ukuran[i].stock<1)
+				{
+					cout<< "\nSTOK HABIS !\n";
+					goto p_item;
+				}
+				else
+				{
+					cout<<"\nBarang Tersedia!\n";
+					sepatu[0].ukuran[i].stock=sepatu[0].ukuran[i].stock-1;
+				}
+			}
+			else if(pelanggan[x].ukuran>45||pelanggan[x].ukuran<40)
+				{
+					cout<< "\nSTOK tidak tersedia !\n";
+					goto p_item;
+				}
+		}
+	}
+	else if(pelanggan[x].merk=="adidas")
+	{
+		hargasatuan=20000;
+		for(int i=0;i<6;i++)
+		{
+			if(pelanggan[x].ukuran==40+i)
+			{
+				if(sepatu[1].ukuran[i].stock<1)
+				{
+					cout<< "\nSTOK HABIS !\n";
+					goto p_item;
+				}
+				else
+				{
+					cout<<"\nBarang Tersedia!\n";
+					sepatu[1].ukuran[i].stock=sepatu[1].ukuran[i].stock-1;
+				}
+			}else if(pelanggan[x].ukuran>45||pelanggan[x].ukuran<40)
+				{
+					cout<< "\nSTOK tidak tersedia !\n";
+					goto p_item;
+				}
+		}
+	}
+	else if(pelanggan[x].merk=="NB")
+	{
+		hargasatuan=15000;
+		for(int i=0;i<6;i++)
+		{
+			if(pelanggan[x].ukuran==40+i)
+			{
+				if(sepatu[2].ukuran[i].stock<1)
+				{
+					cout<< "\nSTOK HABIS !\n";
+					goto p_item;
+				}
+				else
+				{
+					cout<<"\nBarang Tersedia!\n";
+					sepatu[2].ukuran[i].stock=sepatu[2].ukuran[i].stock-1;
+				}
+			}else if(pelanggan[x].ukuran>45||pelanggan[x].ukuran<40)
+				{
+					cout<< "\nSTOK tidak tersedia !\n";
+					goto p_item;
+				}
+		}
+	}
+	else
+			{
+				cout<<"\nBarang dengan merk tersebut tidak tersedia !\n";
+				goto p_item;
+			} 
+			/*
+	while();
+		if(pelanggan[x].merk ==  && pelanggan[x].ukuran>=40&&pelanggan[x].ukuran<47){
+			cout << "Barang Tersedia" << endl;
+			
+		}
+		else {
+			cout << "Barang yang anda cari sedang kosong / tidak ada" << endl;
+			cout << "Silahkan Lakukan Pencarian Ulang";
+			goto p_item;
+		}*/
+		
+		//data diri
+		
+		cout << "\nInput data diri peminjam" <<endl;
+		cin.ignore();
+		cout << "\tNama	:";getline(cin, pelanggan[x].napel);
+		cout << "\tAlamat	:";getline(cin, pelanggan[x].alamat);
+		cout << "\tNo.KTP	:";cin >> pelanggan[x].ktp;
+		cout << "\tNo.HP	:";cin >> pelanggan[x].hp;
+		cout << "\tJangka Waktu Peminjaman" << endl;
+		cout << "\t\tDalam Satuan Hari	:";cin >> pelanggan[x].jangka;
+		//BILL
+		cout << "Total tagihan Pembayaran " << endl ;
+		cout << setw(15) << setfill('=')<<""<<"Rincian Barang :" <<setw(15) << setfill('=')<< "" << endl;
+		cout << "Sepatu " << pelanggan[x].merk << "\nUkuran " << pelanggan[x].ukuran << endl;
+		//TOTAL HARGA
+		pelanggan[x].tagihan=pelanggan[x].jangka*hargasatuan;
+		cout << "\nDengan Waktu Peminjaman "<< pelanggan[x].jangka << ": Rp." << pelanggan[x].tagihan << endl;
+		fwrite(&pelanggan[x],sizeof(pelanggan[x]),1,data1);
+		x=x+1;
+	fclose(data1);
+}break;
+}
 }
